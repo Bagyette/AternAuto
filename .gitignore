@@ -5,3 +5,5 @@ run/
 *.iml
 .tools/
 releases/
+__pycache__/
+*.pyc
