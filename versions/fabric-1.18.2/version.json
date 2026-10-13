@@ -1,0 +1,6 @@
+{
+  "minecraft": "1.18.2",
+  "yarn": "1.18.2+build.4",
+  "java": 17,
+  "loader": "fabric"
+}
