@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "fr.bagyette.aternauto.neoforge.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "v1_21_8.ConnectionMixin",
+    "v1_21_8.DisconnectedScreenMixin",
+    "v1_21_8.ScreenChangeMixin",
+    "v1_21_8.RetryClientMixin",
+    "v1_21_8.ReportDisconnectedMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

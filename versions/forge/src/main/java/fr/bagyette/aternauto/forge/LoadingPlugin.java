@@ -1,5 +1,7 @@
 package fr.bagyette.aternauto.forge;
 
+import fr.bagyette.aternauto.common.ClientUserAgent;
+import java.io.File;
 import java.util.Map;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
@@ -23,7 +25,12 @@ public final class LoadingPlugin implements IFMLLoadingPlugin {
   }
 
   @Override
-  public void injectData(Map<String, Object> data) {}
+  public void injectData(Map<String, Object> data) {
+    Object location = data.get("mcLocation");
+    if (location instanceof File) {
+      ClientUserAgent.configure(((File) location).toPath().resolve("config").resolve("aternauto"));
+    }
+  }
 
   @Override
   public String getAccessTransformerClass() {

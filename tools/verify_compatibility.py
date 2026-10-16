@@ -187,6 +187,8 @@ def verify(game, mod, prefix):
 
 
 if __name__ == "__main__":
+    if "--legacy-v1" not in sys.argv:
+        raise SystemExit("Historical v1 check; v2 uses gradlew buildAll.")
     destination = ROOT / "releases/1"
     report = {}
     with zipfile.ZipFile(destination / "AternAuto-1-fabric-multiversion.jar") as archive:

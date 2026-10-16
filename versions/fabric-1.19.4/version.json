@@ -2,5 +2,19 @@
   "minecraft": "1.19.4",
   "yarn": "1.19.4+build.2",
   "java": 17,
-  "loader": "fabric"
+  "loader": "fabric",
+  "features": [
+    "autostart",
+    "single-reset-retry-35-ticks",
+    "confirmed-start-counter",
+    "twenty-four-languages-and-regional-fallbacks",
+    "credits",
+    "license",
+    "cancellable-single-flight-request",
+    "connect-without-startup",
+    "classified-errors",
+    "opt-in-discord-issue-report",
+    "nonblocking-counter",
+    "persistent-instance-user-agent"
+  ]
 }

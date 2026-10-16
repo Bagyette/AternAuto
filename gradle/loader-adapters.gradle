@@ -1,0 +1,188 @@
+subprojects { adapter ->
+    def spec = new File(adapter.projectDir, 'version.json')
+    if (!spec.isFile()) return
+    def metadata = new groovy.json.JsonSlurper().parse(spec)
+    if (metadata.loader == 'fabric') {
+        apply plugin: metadata.minecraft.startsWith('26.') ? 'net.fabricmc.fabric-loom' : 'fabric-loom'
+        dependencies {
+            minecraft "com.mojang:minecraft:${metadata.minecraft}"
+            if (metadata.yarn) mappings "net.fabricmc:yarn:${metadata.yarn}:v2"
+            if (metadata.minecraft.startsWith('26.')) {
+                implementation 'net.fabricmc:fabric-loader:0.19.5'
+            } else {
+                modImplementation 'net.fabricmc:fabric-loader:0.19.5'
+            }
+            implementation project(':fabric')
+        }
+    } else if (adapter.path == ':forge:launchwrapper') {
+        apply plugin: 'java-library'
+        dependencies {
+            implementation project(':common')
+            compileOnly rootProject.files('.tools/minecraft-1.8.9-srg.jar', '.tools/forge-1.8.9-srg.jar', '.tools/launchwrapper.jar', '.tools/asm-all.jar')
+            compileOnly 'com.mojang:authlib:1.5.21'
+            compileOnly 'com.google.code.gson:gson:2.2.4'
+            compileOnly 'com.google.guava:guava:17.0'
+            testImplementation rootProject.files('.tools/asm-all.jar', '.tools/launchwrapper.jar')
+            testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+            testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        }
+        repositories { maven { url = 'https://libraries.minecraft.net/' } }
+        jar {
+            from project(':common').sourceSets.main.output
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            manifest.attributes('FMLCorePlugin': 'fr.bagyette.aternauto.forge.LoadingPlugin', 'FMLCorePluginContainsFMLMod': 'true')
+        }
+    } else if (adapter.path == ':forge:1_7_10') {
+        apply plugin: 'java-library'
+        ['minecraft', 'forge'].each { component ->
+            def input = rootProject.file(component == 'minecraft' ? '.tools/minecraft-1.7.10-client.jar' : '.tools/forge-1.7.10.jar')
+            def output = rootProject.file(".tools/${component}-1.7.10-srg.jar")
+            def remap = tasks.register("prepare${component.capitalize()}", JavaExec) {
+                classpath = rootProject.files('.tools/special-source.jar')
+                mainClass = 'net.md_5.specialsource.SpecialSource'
+                maxHeapSize = '384m'
+                inputs.files(input, rootProject.file('.tools/mcp-1.7.10.srg'))
+                outputs.file(output)
+                args '-i', input.absolutePath, '-o', output.absolutePath, '-m', rootProject.file('.tools/mcp-1.7.10.srg').absolutePath
+            }
+            compileJava.dependsOn remap
+        }
+        dependencies {
+            implementation project(':common')
+            compileOnly rootProject.files('.tools/minecraft-1.7.10-srg.jar', '.tools/forge-1.7.10-srg.jar', '.tools/launchwrapper.jar', '.tools/asm-all.jar')
+            testImplementation rootProject.files('.tools/asm-all.jar', '.tools/launchwrapper.jar')
+            testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+            testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+            compileOnly 'com.mojang:authlib:1.5.21'
+            compileOnly 'com.google.code.gson:gson:2.2.4'
+            compileOnly 'com.google.guava:guava:17.0'
+        }
+        repositories { maven { url = 'https://libraries.minecraft.net/' } }
+        jar {
+            from project(':common').sourceSets.main.output
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            manifest.attributes('FMLCorePlugin': 'fr.bagyette.aternauto.forge.legacy1710.LoadingPlugin', 'FMLCorePluginContainsFMLMod': 'true')
+        }
+    } else if ((metadata.loader == 'forge' && metadata.minecraft in ['1.18.2', '1.19.2', '1.19.4', '1.20.1']) ||
+            (metadata.loader == 'neoforge' && metadata.minecraft == '1.20.1')) {
+        apply plugin: 'java-library'
+        apply plugin: 'net.neoforged.moddev.legacyforge'
+        def selectedForgeVersion = metadata.loader == 'neoforge' ? '1.20.1-47.4.28' : metadata.loaderVersion
+        legacyForge {
+            enable {
+                forgeVersion = selectedForgeVersion
+                disableRecompilation = true
+            }
+        }
+        dependencies {
+            implementation project(':common')
+            annotationProcessor 'net.fabricmc:sponge-mixin:0.17.4+mixin.0.8.7'
+        }
+        mixin {
+            add sourceSets.main, 'aternauto.loader.refmap.json'
+            config 'aternauto.loader.mixins.json'
+        }
+        jar {
+            from project(':common').sourceSets.main.output
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            manifest.attributes('MixinConfigs': 'aternauto.loader.mixins.json')
+        }
+    } else if (metadata.loader == 'forge' && (metadata.minecraft in ['1.14.4', '1.16.5'] || metadata.minecraft.startsWith('1.21.') || metadata.minecraft.startsWith('26.'))) {
+        apply plugin: 'java-library'
+        def compileManifestFile = rootProject.file(".tools/loader-binaries/${adapter.projectDir.name}/compile-inputs.json")
+        def prepareInputs = tasks.register('prepareBinaryInputs', Exec) {
+            inputs.file spec
+            inputs.file rootProject.file('tools/prepare_loader_binaries.py')
+            outputs.file compileManifestFile
+            commandLine rootProject.python, '-B', rootProject.file('tools/prepare_loader_binaries.py'), adapter.projectDir.name
+            workingDir rootProject.projectDir
+        }
+        def binaries = files({
+            compileManifestFile.isFile() ? new groovy.json.JsonSlurper().parse(compileManifestFile).classpath : []
+        }).builtBy(prepareInputs)
+        dependencies {
+            implementation project(':common')
+            compileOnly binaries
+            compileOnly 'net.fabricmc:sponge-mixin:0.17.4+mixin.0.8.7'
+        }
+        compileJava.dependsOn prepareInputs
+        jar {
+            from project(':common').sourceSets.main.output
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            if (metadata.minecraft != '1.14.4') {
+                manifest.attributes('MixinConfigs': 'aternauto.loader.mixins.json')
+            }
+        }
+        if (metadata.minecraft == '1.16.5') {
+            dependencies {
+                annotationProcessor 'net.fabricmc:sponge-mixin:0.17.4+mixin.0.8.7'
+                annotationProcessor 'com.google.code.gson:gson:2.13.2'
+                annotationProcessor 'com.google.guava:guava:33.4.8-jre'
+            }
+            def extraMappings = layout.buildDirectory.file('mixin/extra.srg')
+            compileJava {
+                inputs.file compileManifestFile
+                doFirst {
+                    extraMappings.get().asFile.parentFile.mkdirs()
+                    def prepared = new groovy.json.JsonSlurper().parse(compileManifestFile)
+                    options.compilerArgs.addAll([
+                            '-AoutRefMapFile=' + destinationDirectory.file('aternauto.loader.refmap.json').get().asFile.absolutePath,
+                            '-AoutSrgFile=' + extraMappings.get().asFile.absolutePath,
+                            '-AreobfSrgFile=' + prepared.productionMappings,
+                            '-AdefaultObfuscationEnv=searge'])
+                }
+            }
+            jar {
+                archiveClassifier = 'dev'
+                destinationDirectory = layout.buildDirectory.dir('devlibs')
+            }
+            tasks.register('remapJar', Exec) {
+                dependsOn tasks.named('jar')
+                def output = layout.buildDirectory.file("libs/AternAuto-${adapter.projectDir.name}-${project.version}.jar")
+                inputs.file tasks.named('jar').flatMap { it.archiveFile }
+                inputs.file extraMappings
+                outputs.file output
+                commandLine rootProject.python, '-B', rootProject.file('tools/prepare_loader_binaries.py'),
+                        adapter.projectDir.name, '--remap-input', tasks.named('jar').get().archiveFile.get().asFile,
+                        '--remap-output', output.get().asFile, '--mixin-mappings', extraMappings.get().asFile
+                workingDir rootProject.projectDir
+            }
+            tasks.named('assemble') { dependsOn 'remapJar' }
+        }
+    } else if (metadata.loader == 'neoforge') {
+        apply plugin: 'java-library'
+        apply plugin: 'net.neoforged.moddev'
+        neoForge {
+            enable {
+                version = metadata.loaderVersion
+                disableRecompilation = true
+            }
+        }
+        dependencies {
+            implementation project(':common')
+        }
+        jar {
+            from project(':common').sourceSets.main.output
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            manifest.attributes('MixinConfigs': 'aternauto.loader.mixins.json')
+        }
+    } else {
+        throw new GradleException("Loader build convention not ported: ${adapter.path}")
+    }
+    base { archivesName = "AternAuto-${adapter.projectDir.name}" }
+    tasks.named('processResources') {
+        inputs.property 'modVersion', project.version.toString()
+        filesMatching('META-INF/*mods.toml') { expand(version: project.version) }
+    }
+    tasks.withType(JavaCompile).configureEach {
+        // Forge's bundled Sponge Mixin does not recognize JAVA_25. These
+        // adapters use Java 21 bytecode while compiling against the Java 25 game.
+        options.release = metadata.loader == 'forge' && metadata.minecraft.startsWith('26.') ? 21 : metadata.java as int
+    }
+    tasks.named('compileTestJava') { options.release = 21 }
+    def artifactTask = (metadata.loader == 'fabric' && !metadata.minecraft.startsWith('26.')) ||
+            (metadata.loader == 'forge' && metadata.minecraft == '1.16.5') ? 'remapJar' :
+            (metadata.minecraft in ['1.18.2', '1.19.2', '1.19.4', '1.20.1'] && metadata.loader != 'fabric' ? 'reobfJar' : 'jar')
+    project(":${metadata.loader}").tasks.named('assemble') { dependsOn adapter.tasks.named(artifactTask) }
+    project(":${metadata.loader}").tasks.named('check') { dependsOn adapter.tasks.named('check') }
+}

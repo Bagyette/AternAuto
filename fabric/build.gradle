@@ -1,0 +1,26 @@
+plugins { id 'java-library' }
+
+base { archivesName = 'AternAuto-fabric-bootstrap' }
+dependencies {
+    api project(':common')
+    compileOnly 'com.google.code.gson:gson:2.2.4'
+    compileOnly 'net.fabricmc:fabric-loader:0.19.5'
+    compileOnly 'net.fabricmc:sponge-mixin:0.17.4+mixin.0.8.7'
+    compileOnly 'org.ow2.asm:asm-tree:9.10.1'
+    testImplementation 'com.google.code.gson:gson:2.2.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+compileJava.options.release = 8
+compileTestJava.options.release = 21
+processResources {
+    inputs.property 'modVersion', project.version.toString()
+    filesMatching('fabric.mod.json') { expand(version: project.version) }
+}
+tasks.register('compileSmokeHarness', JavaCompile) {
+    source rootProject.fileTree('tools/runtime_smoke/src') { include '**/*.java' }
+    classpath = configurations.compileClasspath
+    options.release = 8
+    options.compilerArgs.add('-proc:none')
+    destinationDirectory = rootProject.layout.buildDirectory.dir('runtime-smoke/classes')
+}

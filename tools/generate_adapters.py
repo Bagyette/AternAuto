@@ -4,9 +4,11 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if __name__ == "__main__":
+    raise SystemExit("Historical v1 generator: do not overwrite the typed v2 adapters.")
 metadata = json.loads((ROOT / ".tools/versions.json").read_text())
 by_version = {item["minecraft"]: item for item in metadata}
-base_package = "fr.bagyette.aternauto.compat"
+base_package = "fr.bagyette.aternauto.fabric.compat"
 index = {}
 
 
@@ -106,9 +108,9 @@ import net.minecraft.text.Text;"""
 
     screen = f"""package {package};
 
-import fr.autoaternos.ConnectGuard;
-import fr.autoaternos.RequestTask;
-import fr.autoaternos.SessionIds;
+import fr.bagyette.aternauto.common.ConnectGuard;
+import fr.bagyette.aternauto.common.RequestTask;
+import fr.bagyette.aternauto.common.SessionIds;
 {imports}
 
 /** Minecraft {version} adapter for the shared AternAuto request state. */
@@ -172,7 +174,7 @@ public final class RequestScreen extends Screen {{
 }}
 """
     language_code = "Minecraft.getInstance().options.languageCode" if modern else "MinecraftClient.getInstance().options.language"
-    screen = screen.replace("import fr.autoaternos.RequestTask;", "import fr.autoaternos.RequestTask;\nimport fr.autoaternos.Messages;")
+    screen = screen.replace("import fr.bagyette.aternauto.common.RequestTask;", "import fr.bagyette.aternauto.common.RequestTask;\nimport fr.bagyette.aternauto.common.Messages;")
     screen = screen.replace("  private final Runnable connect;", "  private final Runnable connect;\n  private final Messages messages;")
     screen = screen.replace("    this.connect = connect;", "    this.connect = connect;\n    this.messages = new Messages(" + language_code + ");")
     screen = screen.replace('"Annuler"', 'messages.text("button.cancel")')
@@ -233,8 +235,8 @@ import net.minecraft.client.network.ServerInfo;"""
         host = "address.getAddress()"
     if not legacy:
         write(project, package, "ConnectionMixin", f"""package {package};
-import fr.autoaternos.ConnectGuard;
-import fr.autoaternos.DawnApi;
+import fr.bagyette.aternauto.common.ConnectGuard;
+import fr.bagyette.aternauto.common.DawnApi;
 {connection_imports}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -253,8 +255,8 @@ public abstract class ConnectionMixin {{
 """)
     else:
         write(project, package, "ConnectionMixin", f"""package {package};
-import fr.autoaternos.ConnectGuard;
-import fr.autoaternos.DawnApi;
+import fr.bagyette.aternauto.common.ConnectGuard;
+import fr.bagyette.aternauto.common.DawnApi;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -318,11 +320,11 @@ public abstract class ClientTickMixin {{
 
 (ROOT / "versions/forge").mkdir(parents=True, exist_ok=True)
 (ROOT / "versions/forge/version.json").write_text(json.dumps({"loader": "forge", "minecraft": "1.8.9", "java": 8}), encoding="utf-8")
-resources = ROOT / "src/main/resources"
+resources = ROOT / "fabric/src/main/resources"
 (resources / "aternauto-adapters.json").write_text(json.dumps(index, indent=2), encoding="utf-8")
 (resources / "auto_aternos_start.mixins.json").unlink(missing_ok=True)
-(resources / "aternauto.mixins.json").write_text(json.dumps({"required": True, "package": base_package, "plugin": "fr.autoaternos.AdapterPlugin", "compatibilityLevel": "JAVA_8", "client": [], "injectors": {"defaultRequire": 1}}, indent=2), encoding="utf-8")
-(resources / "fabric.mod.json").write_text(json.dumps({"schemaVersion": 1, "id": "aternauto", "version": "1", "name": "AternAuto", "authors": ["Bagyette0"], "description": "Démarrage Aternos lors de la connexion, via le protocole Dawn.", "environment": "client", "mixins": ["aternauto.mixins.json"], "depends": {"fabricloader": ">=0.16.14", "minecraft": sorted(index), "java": ">=8"}, "breaks": {"dawn": "*", "feather": "*", "auto_aternos_start": "*"}}, ensure_ascii=False, indent=2), encoding="utf-8")
+(resources / "aternauto.mixins.json").write_text(json.dumps({"required": True, "package": base_package, "plugin": "fr.bagyette.aternauto.fabric.AdapterPlugin", "compatibilityLevel": "JAVA_8", "client": [], "injectors": {"defaultRequire": 1}}, indent=2), encoding="utf-8")
+(resources / "fabric.mod.json").write_text(json.dumps({"schemaVersion": 1, "id": "aternauto", "version": "1", "name": "AternAuto", "authors": ["Bagyette0"], "description": "Start your Aternos server when connecting from Minecraft.", "environment": "client", "mixins": ["aternauto.mixins.json"], "depends": {"fabricloader": ">=0.16.14", "minecraft": sorted(index), "java": ">=8"}, "breaks": {"dawn": "*", "feather": "*", "auto_aternos_start": "*"}}, ensure_ascii=False, indent=2), encoding="utf-8")
 
 # Only annotated mixin classes belong under the mixin configuration's package.
 # Ordinary screens and helpers must remain outside it or Knot rejects their loading.
@@ -335,12 +337,12 @@ for folder in (ROOT / "versions").glob("fabric-*/src/main/java"):
         new_package = old_package.replace(".compat.", ".mixin.")
         source = source.replace("package " + old_package + ";", "package " + new_package + ";")
         helper = "PendingConnection" if path.name == "ClientTickMixin.java" else "RequestScreen"
-        source = source.replace("import fr.autoaternos.ConnectGuard;", "import " + old_package + "." + helper + ";\nimport fr.autoaternos.ConnectGuard;") if path.name != "ClientTickMixin.java" else source.replace("import net.minecraft.client.MinecraftClient;", "import " + old_package + ".PendingConnection;\nimport net.minecraft.client.MinecraftClient;")
+        source = source.replace("import fr.bagyette.aternauto.common.ConnectGuard;", "import " + old_package + "." + helper + ";\nimport fr.bagyette.aternauto.common.ConnectGuard;") if path.name != "ClientTickMixin.java" else source.replace("import net.minecraft.client.MinecraftClient;", "import " + old_package + ".PendingConnection;\nimport net.minecraft.client.MinecraftClient;")
         if path.name == "ConnectionMixin.java" and "PendingConnection.defer" in source:
-            source = source.replace("import fr.autoaternos.ConnectGuard;", "import " + old_package + ".PendingConnection;\nimport fr.autoaternos.ConnectGuard;")
+            source = source.replace("import fr.bagyette.aternauto.common.ConnectGuard;", "import " + old_package + ".PendingConnection;\nimport fr.bagyette.aternauto.common.ConnectGuard;")
         destination = folder / Path(new_package.replace(".", "/")) / path.name
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(source, encoding="utf-8")
         path.unlink()
-(resources / "aternauto.mixins.json").write_text(json.dumps({"required": True, "package": "fr.bagyette.aternauto.mixin", "plugin": "fr.autoaternos.AdapterPlugin", "compatibilityLevel": "JAVA_8", "client": [], "injectors": {"defaultRequire": 1}}, indent=2), encoding="utf-8")
+(resources / "aternauto.mixins.json").write_text(json.dumps({"required": True, "package": "fr.bagyette.aternauto.fabric.mixin", "plugin": "fr.bagyette.aternauto.fabric.AdapterPlugin", "compatibilityLevel": "JAVA_8", "client": [], "injectors": {"defaultRequire": 1}}, indent=2), encoding="utf-8")
 print("Generated", len(index), "Fabric version bindings with", len(set(item['package'] for item in index.values())), "adapters.")

@@ -1,0 +1,27 @@
+[
+  {
+    "status": 202,
+    "body": {
+      "alreadyInProgress": false
+    }
+  },
+  {
+    "status": 202,
+    "body": {
+      "alreadyInProgress": true
+    }
+  },
+  {
+    "status": 202,
+    "body": {
+      "alreadyInProgress": true
+    }
+  },
+  {
+    "status": 403,
+    "body": {
+      "code": "ATERNOS_FORBIDDEN",
+      "message": "this server cannot be started by joining it"
+    }
+  }
+]

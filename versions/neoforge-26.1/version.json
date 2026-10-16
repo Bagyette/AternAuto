@@ -1,0 +1,27 @@
+{
+  "id": "neoforge-26.1",
+  "minecraft": "26.1",
+  "loader": "neoforge",
+  "loaderVersion": "26.1.0.19-beta",
+  "upstream": "neoforge",
+  "java": 25,
+  "artifactFamily": "neoforge-26.1",
+  "loaderAvailable": true,
+  "loaderPrerelease": true,
+  "implementation": "pending-port",
+  "validated": false,
+  "features": [
+    "autostart",
+    "single-reset-retry-35-ticks",
+    "confirmed-start-counter",
+    "twenty-four-languages-and-regional-fallbacks",
+    "credits",
+    "license",
+    "cancellable-single-flight-request",
+    "connect-without-startup",
+    "classified-errors",
+    "opt-in-discord-issue-report",
+    "nonblocking-counter",
+    "persistent-instance-user-agent"
+  ]
+}

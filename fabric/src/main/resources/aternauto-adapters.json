@@ -1,0 +1,70 @@
+{
+  "1.14.4": {
+    "package": "v1_14_4",
+    "legacy": true
+  },
+  "1.16.5": {
+    "package": "v1_16_5",
+    "legacy": true
+  },
+  "1.18.2": {
+    "package": "v1_18_2",
+    "legacy": false
+  },
+  "1.19.4": {
+    "package": "v1_19_4",
+    "legacy": false
+  },
+  "1.20.1": {
+    "package": "v1_20_1",
+    "legacy": false
+  },
+  "1.21.1": {
+    "package": "v1_21_1",
+    "legacy": false
+  },
+  "1.21.9": {
+    "package": "v1_21_9",
+    "legacy": false
+  },
+  "1.21.10": {
+    "package": "v1_21_9",
+    "legacy": false
+  },
+  "1.21.11": {
+    "package": "v1_21_11",
+    "legacy": false
+  },
+  "26.1": {
+    "package": "v26_1",
+    "legacy": false
+  },
+  "26.1.1": {
+    "package": "v26_1",
+    "legacy": false
+  },
+  "26.1.2": {
+    "package": "v26_1",
+    "legacy": false
+  },
+  "26.2": {
+    "package": "v26_2",
+    "legacy": false
+  },
+  "26.3": {
+    "package": "v26_3",
+    "legacy": false
+  },
+  "1.19.2": {
+    "package": "v1_19_2",
+    "legacy": false
+  },
+  "1.21.4": {
+    "package": "v1_21_4",
+    "legacy": false
+  },
+  "1.21.8": {
+    "package": "v1_21_8",
+    "legacy": false
+  }
+}

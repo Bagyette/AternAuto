@@ -1,0 +1,27 @@
+{
+  "id": "forge-1.18.2",
+  "minecraft": "1.18.2",
+  "loader": "forge",
+  "loaderVersion": "1.18.2-40.3.12",
+  "upstream": "forge",
+  "java": 17,
+  "artifactFamily": "forge-1.18.2",
+  "loaderAvailable": true,
+  "loaderPrerelease": false,
+  "implementation": "pending-port",
+  "validated": false,
+  "features": [
+    "autostart",
+    "single-reset-retry-35-ticks",
+    "confirmed-start-counter",
+    "twenty-four-languages-and-regional-fallbacks",
+    "credits",
+    "license",
+    "cancellable-single-flight-request",
+    "connect-without-startup",
+    "classified-errors",
+    "opt-in-discord-issue-report",
+    "nonblocking-counter",
+    "persistent-instance-user-agent"
+  ]
+}

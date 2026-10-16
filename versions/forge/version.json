@@ -1,1 +1,19 @@
-{"loader": "forge", "minecraft": "1.8.9", "java": 8}
+{
+  "loader": "forge",
+  "minecraft": "1.8.9",
+  "java": 8,
+  "features": [
+    "autostart",
+    "single-reset-retry-35-ticks",
+    "confirmed-start-counter",
+    "twenty-four-languages-and-regional-fallbacks",
+    "credits",
+    "license",
+    "cancellable-single-flight-request",
+    "connect-without-startup",
+    "classified-errors",
+    "opt-in-discord-issue-report",
+    "nonblocking-counter",
+    "persistent-instance-user-agent"
+  ]
+}

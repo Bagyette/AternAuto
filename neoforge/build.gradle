@@ -1,0 +1,4 @@
+plugins { id 'base' }
+
+// NeoForge adapters join this loader module as they are ported.
+// An empty loader cannot pass the complete matrix preflight.

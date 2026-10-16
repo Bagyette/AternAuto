@@ -1,0 +1,31 @@
+plugins { id 'java-library' }
+
+base { archivesName = 'AternAuto-common' }
+dependencies {
+    compileOnly 'com.google.code.gson:gson:2.2.4'
+    testImplementation 'com.google.code.gson:gson:2.2.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+compileJava.options.release = 8
+compileTestJava.options.release = 21
+def generatedVersion = layout.buildDirectory.dir('generated/sources/version')
+tasks.register('generateVersion') {
+    inputs.property('modVersion', project.version.toString())
+    outputs.dir generatedVersion
+    doLast {
+        def target = generatedVersion.get().file('fr/bagyette/aternauto/common/BuildVersion.java').asFile
+        target.parentFile.mkdirs()
+        target.text = """package fr.bagyette.aternauto.common;
+
+/** Generated from the single mod_version property. */
+public final class BuildVersion {
+  public static final String VERSION = "${project.version}";
+
+  private BuildVersion() {}
+}
+"""
+    }
+}
+sourceSets.main.java.srcDir generatedVersion
+compileJava.dependsOn 'generateVersion'

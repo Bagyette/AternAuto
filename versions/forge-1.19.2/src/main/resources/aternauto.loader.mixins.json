@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "fr.bagyette.aternauto.forge.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "v1_19_2.ConnectionMixin",
+    "v1_19_2.DisconnectedScreenMixin",
+    "v1_19_2.ScreenChangeMixin",
+    "v1_19_2.RetryClientMixin",
+    "v1_19_2.ReportDisconnectedMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "aternauto.loader.refmap.json"
+}

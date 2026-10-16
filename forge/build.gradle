@@ -1,0 +1,3 @@
+plugins { id 'base' }
+
+// Shared conventions are in gradle/loader-adapters.gradle; adapters contain only bindings.

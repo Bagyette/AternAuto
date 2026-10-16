@@ -7,3 +7,7 @@ run/
 releases/
 __pycache__/
 *.pyc
+.mdpsftp
+.sftp-credentials.json
+.env
+.env.*

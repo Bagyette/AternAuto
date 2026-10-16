@@ -1,3 +1,6 @@
+import argparse
+import hashlib
+import importlib
 import json
 import os
 from pathlib import Path
@@ -8,9 +11,16 @@ import sys
 import urllib.request
 import zipfile
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from assets import prepare as prepare_assets
+import harness
+importlib.reload(harness)  # Each dynamically loaded driver uses fresh test helpers.
+from harness import mixin_harness, render_method
+
 ROOT = Path(__file__).resolve().parents[2]
 PRISM = Path(os.environ["APPDATA"]) / "PrismLauncher"
-HERE = ROOT / ".tools/runtime-smoke"
+HERE = ROOT / ".tools/runtime-smoke-v2"
+HARNESS = ROOT / "build/runtime-smoke/classes"
 
 
 def metadata(uid, version):
@@ -42,6 +52,8 @@ def artifact(library):
     relative = group.replace(".", "/") + f"/{name}/{version}/{name}-{version}{classifier}.jar"
     target = PRISM / "libraries" / relative
     if not target.exists():
+        target = ROOT / ".tools/runtime-libraries" / relative
+    if not target.exists():
         url = library.get("downloads", {}).get("artifact", {}).get("url") or library.get("url", "https://libraries.minecraft.net/").rstrip("/") + "/" + relative
         target.parent.mkdir(parents=True, exist_ok=True)
         with urllib.request.urlopen(url, timeout=30) as response:
@@ -49,7 +61,12 @@ def artifact(library):
     return target
 
 
-def run(version):
+def run(version, mod_jar, directory_root=None):
+    mod_jar = Path(mod_jar).resolve()
+    if not mod_jar.is_file():
+        raise ValueError("Packaged mod missing: " + str(mod_jar))
+    if not (HARNESS / "fr/bagyette/aternauto/testing/smoke/SmokeClient.class").is_file():
+        raise ValueError("Compile the smoke harness before launching")
     modern = version.startswith("26.")
     game = metadata("net.minecraft", version)
     components = [metadata(requirement["uid"], requirement.get("equals") or requirement["suggests"]) for requirement in game.get("requires", [])]
@@ -72,70 +89,71 @@ def run(version):
             native["downloads"] = {"artifact": library.get("downloads", {}).get("classifiers", {}).get(classifier, {})}
             classpath.append(artifact(native))
     classpath.append(artifact(game["mainJar"]))
-    directory = HERE / version
+    directory = Path(directory_root) if directory_root is not None else HERE / version
+    if not directory.resolve().is_relative_to(ROOT.resolve()):
+        raise ValueError("Runtime workspace must stay inside the project")
     mods = directory / "mods"
     mods.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(ROOT / "releases/1/AternAuto-1-fabric-multiversion.jar", mods)
-    with zipfile.ZipFile(mods / "runtime-smoke.jar", "w") as archive:
-        for path in (HERE / "classes").rglob("*.class"):
-            archive.write(path, arcname=path.relative_to(HERE / "classes").as_posix())
-        archive.writestr("fabric.mod.json", json.dumps({"schemaVersion": 1, "id": "aternauto_runtime_smoke", "version": "1", "environment": "client", "entrypoints": {"client": ["smoke.SmokeClient"]}, "mixins": ["smoke.mixins.json"]}))
-        archive.writestr("smoke.mixins.json", json.dumps({"required": True, "package": "smoke.mixin", "compatibilityLevel": "JAVA_8", "client": ["ModernTickMixin" if modern else "LegacyTickMixin"]}))
-    index = json.loads((ROOT / "src/main/resources/aternauto-adapters.json").read_text())
-    screen = "fr.bagyette.aternauto.compat." + index[version]["package"] + ".RequestScreen"
+    shutil.copy2(mod_jar, mods / mod_jar.name)
+    index = json.loads((ROOT / "fabric/src/main/resources/aternauto-adapters.json").read_text())
+    screen = "fr.bagyette.aternauto.fabric.compat." + index[version]["package"] + ".RequestScreen"
     onboarding = "net.minecraft.client.gui.screens.AccessibilityOnboardingScreen"
+    frame = "extractRenderState"
+    window_class = "com.mojang.blaze3d.platform.Window"
     if not modern:
-        mapping = (ROOT / ".tools" / f"yarn-{version}.tiny")
-        if not mapping.exists() and version == "1.21.10":
-            mapping = ROOT / ".tools/yarn-1.21.9.tiny"
-        matches = [line.split("\t")[1].replace("/", ".") for line in mapping.read_text().splitlines() if line.startswith("c\t") and line.endswith("/AccessibilityOnboardingScreen")]
-        onboarding = matches[0] if matches else "none"
-    if onboarding != "none":
-        source = directory / "OnboardFrameMixin.java"
-        render = "extractRenderState" if modern else "method_25394"
-        source.write_text('package smoke.mixin;\n'
-            'import smoke.SmokeClient;\n'
-            'import org.spongepowered.asm.mixin.Mixin;\n'
-            'import org.spongepowered.asm.mixin.injection.At;\n'
-            'import org.spongepowered.asm.mixin.injection.Inject;\n'
-            'import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;\n'
-            f'@Mixin(targets = "{onboarding}", remap = false)\n'
-            'public abstract class OnboardFrameMixin {\n'
-            f'  @Inject(method = "{render}", at = @At("TAIL"), remap = false)\n'
-            '  private void continueDuringFrame(CallbackInfo callback) {\n'
-            '    SmokeClient.continueScreen(this);\n'
-            '  }\n}\n', encoding="utf-8")
-        compile_path = [HERE / "classes"] + [path for path in classpath if "fabric-loader-" in path.name or "sponge-mixin-" in path.name]
-        subprocess.run(["javac", "--release", "8", "-proc:none", "-cp", os.pathsep.join(map(str, compile_path)), "-d", str(directory / "smoke-classes"), str(source)], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        with zipfile.ZipFile(mods / "runtime-smoke.jar") as archive:
-            contents = {name: archive.read(name) for name in archive.namelist() if name != "fabric.mod.json"}
-        contents["smoke/mixin/OnboardFrameMixin.class"] = (directory / "smoke-classes/smoke/mixin/OnboardFrameMixin.class").read_bytes()
-        contents["smoke.frame.mixins.json"] = json.dumps({"required": True, "package": "smoke.mixin", "compatibilityLevel": "JAVA_8", "client": ["OnboardFrameMixin"]}).encode()
-        contents["fabric.mod.json"] = json.dumps({"schemaVersion": 1, "id": "aternauto_runtime_smoke", "version": "1", "environment": "client", "entrypoints": {"client": ["smoke.SmokeClient"]}, "mixins": ["smoke.mixins.json", "smoke.frame.mixins.json"]}).encode()
-        with zipfile.ZipFile(mods / "runtime-smoke.jar", "w") as archive:
-            for name, content in contents.items():
-                archive.writestr(name, content)
+        mapping = ROOT / ".tools" / ("yarn-" + version + ".tiny")
+        owner = None
+        onboarding = "none"
+        frame = None
+        for line in mapping.read_text().splitlines():
+            parts = line.split("\t")
+            if parts[0] == "c":
+                owner = parts[-1]
+                if owner.endswith("/AccessibilityOnboardingScreen"):
+                    onboarding = parts[-2].replace("/", ".")
+                if owner.endswith("/client/util/Window"):
+                    window_class = parts[-2].replace("/", ".")
+            elif owner == "net/minecraft/client/gui/screen/Screen" and line.startswith("\tm\t") and parts[-1] == "render":
+                frame = parts[-2]
+        frame = render_method(mod_jar, screen).split("(")[0]
+    mixin_harness(directory, mod_jar, screen, "fabric",
+                  "net.minecraft.client.Minecraft" if modern else "net.minecraft.class_310",
+                  "tick" if modern else "method_1574", window_class, classpath,
+                  onboarding, frame, "sdl" if version == "26.3" else "glfw-static" if modern else None)
+    assets, asset_id, virtual = prepare_assets(version, PRISM)
+    temporary = directory / "tmp"
+    temporary.mkdir(exist_ok=True)
     options = directory / "options.txt"
-    if options.exists():
-        options.unlink()
+    options.write_text("soundCategory_master:0.0\nsound:0.0\nmusic:0.0\n", encoding="utf-8")
     result = directory / "result.txt"
     if result.exists():
         result.unlink()
-    major = 25 if modern else 21 if version.startswith("1.21") else 17
-    runtime = {25: "java-runtime-epsilon", 21: "java-runtime-delta", 17: "java-runtime-gamma"}[major]
-    java = PRISM / "java" / runtime / "bin/java.exe"
-    args = ["-Xms512M", "-Xmx800M", "-Djdk.net.unixdomain.tmpdir=C:/Windows/Temp",
+    major = 25 if modern else 21 if version.startswith("1.21") else 8 if version in ("1.14.4", "1.16.5") else 17
+    runtime = {25: "java-runtime-epsilon", 21: "java-runtime-delta", 17: "java-runtime-gamma"}.get(major)
+    java = PRISM / "java" / runtime / "bin/java.exe" if runtime else Path(os.environ.get("ATERNAUTO_JAVA8", "C:/Program Files/Eclipse Adoptium/jdk-8.0.504.1-hotspot")) / "bin/java.exe"
+    args = ["-Xms128M", "-Xmx800M", "-XX:ActiveProcessorCount=2",
+            "-Djdk.net.unixdomain.tmpdir=" + str(ROOT / ".tools/sockets"),
+            "-Djava.io.tmpdir=" + str(temporary),
             "-Dsmoke.screen=" + screen, "-Dsmoke.connect=" + ("net.minecraft.client.gui.screens.ConnectScreen" if modern else "net.minecraft.class_412"),
+            "-Dsmoke.disconnect=" + ("net.minecraft.client.gui.screens.DisconnectedScreen" if modern else "net.minecraft.class_419"),
             "-Dsmoke.modern=" + str(modern).lower(), "-Dsmoke.onboarding=" + onboarding,
+            "-Dsmoke.stop=" + ("stop" if modern else "method_1592"),
             "-Dsmoke.result=" + str(result), "-cp", os.pathsep.join(map(str, classpath)), "net.fabricmc.loader.impl.launch.knot.KnotClient",
-            "--username", "AternAutoTest", "--version", version, "--gameDir", str(directory), "--assetsDir", str(PRISM / "assets"),
-            "--assetIndex", game["assetIndex"]["id"], "--uuid", "11111111222233334444555555555555", "--accessToken", "0",
+            "--username", "AternAutoTest", "--version", version, "--gameDir", str(directory), "--assetsDir", str(assets),
+            "--assetIndex", asset_id, "--uuid", "11111111222233334444555555555555", "--accessToken", "0",
             "--userType", "msa", "--width", "854", "--height", "480"]
-    args += ["--quickPlayMultiplayer", "leserveursurvie.aternos.me"] if modern or version not in ("1.18.2", "1.19.4") else ["--server", "leserveursurvie.aternos.me", "--port", "25565"]
+    if version == "1.16.5":
+        args[:0] = ["-Dsmoke.manualConnect=true", "-Dsmoke.setScreen=method_1507"]
+    quick_play = modern or version.startswith("1.21.") or version == "1.20.1"
+    args += ["--quickPlayMultiplayer", "smoke.aternos.me"] if quick_play else ["--server", "smoke.aternos.me", "--port", "25565"]
     args_file = directory / "java-args.txt"
     args_file.write_text("\n".join('"' + item.replace("\\", "\\\\").replace('"', '\\"') + '"' for item in args), encoding="utf-8")
     with (directory / "console.log").open("w", encoding="utf-8") as log:
-        process = subprocess.Popen([str(java), "@" + str(args_file)], cwd=directory, stdout=log, stderr=subprocess.STDOUT)
+        command = [str(java), *args] if major == 8 else [str(java), "@" + str(args_file)]
+        environment = dict(os.environ)
+        environment["_JAVA_OPTIONS"] = "-Xms128m -Xmx800m -XX:ActiveProcessorCount=2"
+        process = subprocess.Popen(command, cwd=directory, stdout=log, stderr=subprocess.STDOUT,
+                                   env=environment, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         try:
             code = process.wait(timeout=70)
         except subprocess.TimeoutExpired:
@@ -144,16 +162,17 @@ def run(version):
             code = -1
     status = result.read_text().strip() if result.exists() else "NO_RESULT"
     print(version, "exit", code, status, flush=True)
-    return {"version": version, "exit": code, "result": status}
+    return {"version": version, "exit": code, "result": status,
+            "jarSha256": hashlib.sha256((mods / mod_jar.name).read_bytes()).hexdigest(),
+            "marker": "ATERN_SMOKE_PASS" in (directory / "console.log").read_text(encoding="utf-8", errors="replace"),
+            "secondaryMonitor": "ATERN_SMOKE_WINDOW_1080P" in (directory / "console.log").read_text(encoding="utf-8", errors="replace")}
 
 
 if __name__ == "__main__":
-    versions = sys.argv[1:] or ["1.19.4", "1.20.1"]
-    report = []
-    for version in versions:
-        try:
-            report.append(run(version))
-        except Exception as error:
-            print(version, repr(error), flush=True)
-            report.append({"version": version, "error": str(error)})
-    (HERE / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("version")
+    parser.add_argument("--jar", type=Path, required=True)
+    args = parser.parse_args()
+    result = run(args.version, args.jar)
+    print(json.dumps(result, indent=2))
+    raise SystemExit(0 if result["exit"] == 0 and result["result"] == "REQUEST_SCREEN_RENDERED" and result["marker"] else 1)

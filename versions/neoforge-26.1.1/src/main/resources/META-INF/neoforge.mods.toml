@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="Bagyette Custom License (BCL-1.0)"
+[[mods]]
+modId="aternauto"
+version="${version}"
+displayName="AternAuto"
+authors="Bagyette0"
+description="Start your Aternos server when connecting from Minecraft."
+displayTest="IGNORE_SERVER_VERSION"
+
+[[dependencies.aternauto]]
+modId="minecraft"
+type="required"
+versionRange="[26.1.1]"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.aternauto]]
+modId="neoforge"
+type="required"
+versionRange="[26.1.1.15-beta,)"
+ordering="NONE"
+side="CLIENT"
+
+[[mixins]]
+config="aternauto.loader.mixins.json"
