@@ -21,6 +21,9 @@ public final class SmokeChecks {
   private static String previousScreen;
   private static boolean manualConnection;
   private static boolean sdl;
+  private static int networkAttempts;
+  private static int retryTicks;
+  private static Object retryScreen;
 
   private SmokeChecks() {}
 
@@ -101,6 +104,10 @@ public final class SmokeChecks {
     } catch (ReflectiveOperationException error) {
       fail(error);
     }
+    if (Boolean.getBoolean("smoke.retry")) {
+      retryTick(client);
+      return;
+    }
     if (frames >= 15 && !stopping) {
       stopping = true;
       try {
@@ -112,6 +119,74 @@ public final class SmokeChecks {
       } catch (Throwable error) {
         fail(error);
       }
+    }
+  }
+
+  /** Blocks real networking in the regression probe, after vanilla's connection guard. */
+  public static void networkAttempt() {
+    networkAttempts++;
+  }
+
+  private static void retryTick(Object client) {
+    if (frames < 15 || stopping) {
+      return;
+    }
+    try {
+      java.lang.reflect.Field current = client.getClass().getField("field_1755");
+      if (retryScreen == null) {
+        Object request = current.get(client);
+        java.lang.reflect.Field callback = request.getClass().getDeclaredField("connect");
+        callback.setAccessible(true);
+        Class<?> adapter =
+            Class.forName("fr.bagyette.aternauto.fabric.compat.v1_21_11.RetryConnection");
+        adapter
+            .getMethod("begin", String.class, int.class, Runnable.class)
+            .invoke(null, "smoke.aternos.me", 25565, callback.get(request));
+        if (networkAttempts != 1) {
+          throw new IllegalStateException("Initial vanilla connection was not reached");
+        }
+        retryScreen = current.get(client);
+        java.lang.reflect.Field flowField = adapter.getDeclaredField("FLOW");
+        flowField.setAccessible(true);
+        Object flow = flowField.get(null);
+        java.lang.reflect.Field activeField = flow.getClass().getDeclaredField("active");
+        activeField.setAccessible(true);
+        Object active = activeField.get(flow);
+        java.lang.reflect.Field retryField = active.getClass().getDeclaredField("retry");
+        retryField.setAccessible(true);
+        Object retry = retryField.get(active);
+        boolean scheduled =
+            (Boolean)
+                retry
+                    .getClass()
+                    .getMethod("schedule", String.class)
+                    .invoke(
+                        retry, "Internal Exception: java.net.SocketException: Connection reset");
+        if (!scheduled) {
+          throw new IllegalStateException("Reset retry was not scheduled");
+        }
+        System.out.println("ATERN_RETRY_SCHEDULED");
+        return;
+      }
+      retryTicks++;
+      if (retryTicks < 35) {
+        if (networkAttempts != 1 || current.get(client) != retryScreen) {
+          throw new IllegalStateException("Reconnected before the 35-tick delay");
+        }
+        return;
+      }
+      if (networkAttempts != 2 || current.get(client) == retryScreen) {
+        throw new IllegalStateException(
+            "Vanilla refused the second connection: " + networkAttempts);
+      }
+      stopping = true;
+      client.getClass().getMethod(System.getProperty("smoke.stop")).invoke(client);
+      Files.write(
+          Paths.get(System.getProperty("smoke.result")),
+          "RESET_RETRY_PASSED\n".getBytes(StandardCharsets.UTF_8));
+      System.out.println("ATERN_SMOKE_PASS resetRetryTicks=" + retryTicks + " connections=2");
+    } catch (Throwable error) {
+      fail(error);
     }
   }
 

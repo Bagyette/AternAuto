@@ -110,6 +110,19 @@ public abstract class ClientTickMixin {{
   private void tick(CallbackInfo ci) {{ SmokeChecks.tick(this); }}
 }}
 """)
+    if os.environ.get("ATERNAUTO_RETRY_SMOKE") == "1":
+        if loader != "fabric" or not screen.endswith("v1_21_11.RequestScreen"):
+            raise ValueError("Reset retry regression probe currently targets Fabric 1.21.11")
+        write("RetryNetworkMixin", imports + """
+@Mixin(targets = "net.minecraft.class_412", remap = false)
+public abstract class RetryNetworkMixin {
+  @Inject(method = "method_2130", at = @At("HEAD"), cancellable = true, remap = false)
+  private void network(CallbackInfo ci) {
+    SmokeChecks.networkAttempt();
+    ci.cancel();
+  }
+}
+""")
     if window_factory in {"sdl", "sdl-static"}:
         sdl_method = "createWindowStatic" if window_factory == "sdl-static" else "createWindow"
         sdl_static = "static " if window_factory == "sdl-static" else ""

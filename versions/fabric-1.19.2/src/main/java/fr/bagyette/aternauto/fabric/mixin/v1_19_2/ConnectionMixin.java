@@ -39,6 +39,10 @@ public abstract class ConnectionMixin {
             parent,
             address.getAddress(),
             address.getPort(),
-            () -> ConnectScreen.connect(parent, client, address, serverData)));
+            () -> {
+              // Leave the failed screen before vanilla checks for an active connection.
+              client.setScreen(parent);
+              ConnectScreen.connect(parent, client, address, serverData);
+            }));
   }
 }

@@ -140,9 +140,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
+      "distributionSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3"
     },
     {
       "id": "forge-1.18.2",
@@ -155,9 +157,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "97a458eaa707d184288fc11594d6389bcc7f978c98aa4d894d7424c2f1458f4b",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "97a458eaa707d184288fc11594d6389bcc7f978c98aa4d894d7424c2f1458f4b",
+      "distributionSha256": "328891dbf7a33409f5835f302086a407d4c86cc22042d6645366be36195e4782"
     },
     {
       "id": "fabric-1.19.2",
@@ -170,9 +174,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
+      "distributionSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3"
     },
     {
       "id": "forge-1.19.2",
@@ -185,9 +191,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "4c277b588734057209d77451079ac7ac1b6f90afceb0f36afcf49559b67a1499",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "4c277b588734057209d77451079ac7ac1b6f90afceb0f36afcf49559b67a1499",
+      "distributionSha256": "06c329c1ff6d004d1ea8734b62a5acd26f9bf399039b53cce1f217f6c1317a54"
     },
     {
       "id": "fabric-1.19.4",
@@ -200,9 +208,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
+      "distributionSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3"
     },
     {
       "id": "forge-1.19.4",
@@ -215,9 +225,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "ad7a8d5480619835e75efe06878966f9e92c70464ff2134113c394d1238edc51",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "ad7a8d5480619835e75efe06878966f9e92c70464ff2134113c394d1238edc51",
+      "distributionSha256": "e650a36798f6da85a4d990adb9fa9bbe7ae8e39def8dfaeec2ca66aa4fb1a392"
     },
     {
       "id": "fabric-1.20.1",
@@ -230,9 +242,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
+      "distributionSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3"
     },
     {
       "id": "forge-1.20.1",
@@ -245,9 +259,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "14379806160cf5971cd7281ba4e34b1cad587e152517650173792db0b426886a",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "14379806160cf5971cd7281ba4e34b1cad587e152517650173792db0b426886a",
+      "distributionSha256": "08d77ee465f2198e3dfd52f7a24cdf549f6022da0a838f4da7d921e4d480b5c8"
     },
     {
       "id": "neoforge-1.20.1",
@@ -260,9 +276,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "4afa3075d0611e0a3993be819e2f0e01f79a16180fe4d9229e6a00b92adc0e82",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "4afa3075d0611e0a3993be819e2f0e01f79a16180fe4d9229e6a00b92adc0e82",
+      "distributionSha256": "e14aa0599e6511f007c22f9a33771c3e7b5201e95b80ecb452d4757b940a846a"
     },
     {
       "id": "fabric-1.21.1",
@@ -275,9 +293,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
+      "distributionSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3"
     },
     {
       "id": "forge-1.21.1",
@@ -290,9 +310,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "36e382b421fb71ce8fde98b2aea56164632d342adbdb01b4485ae949b3ea0447",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "36e382b421fb71ce8fde98b2aea56164632d342adbdb01b4485ae949b3ea0447",
+      "distributionSha256": "415b6ca22bd9bcddd56e656127631be2ca9937b2b885cfa16adc5b1422aea58d"
     },
     {
       "id": "neoforge-1.21.1",
@@ -305,9 +327,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "3d0e452521352ff672e4489d0369ff1e09f88eaedd772f70cad9cb8a8a83951a",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "3d0e452521352ff672e4489d0369ff1e09f88eaedd772f70cad9cb8a8a83951a",
+      "distributionSha256": "b56b1cbdc22ebd281e0270fcd45199a1e622564f21acdad8a6941f25f70199af"
     },
     {
       "id": "fabric-1.21.4",
@@ -320,9 +344,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
+      "distributionSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3"
     },
     {
       "id": "forge-1.21.4",
@@ -335,9 +361,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "7f4d947f9278232bd96f571f59df820cb9107b6a278bf30bd9540cfdf1f0a224",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "7f4d947f9278232bd96f571f59df820cb9107b6a278bf30bd9540cfdf1f0a224",
+      "distributionSha256": "8354d5170ca5b5d474c9f1657924be81fdd21e27e8db6d6175e51894781df7c9"
     },
     {
       "id": "neoforge-1.21.4",
@@ -350,9 +378,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "dcc8809ca4686ef86200605b7072ecaea9d0c350d52bc6c19ab600bfea37fefc",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "dcc8809ca4686ef86200605b7072ecaea9d0c350d52bc6c19ab600bfea37fefc",
+      "distributionSha256": "a02e60cd11419931ad5450bbb25a7ecc0218157782ce90a368bb0abdda709ca9"
     },
     {
       "id": "fabric-1.21.8",
@@ -365,9 +395,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
+      "distributionSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3"
     },
     {
       "id": "forge-1.21.8",
@@ -380,9 +412,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "9dd1d27b6d4f9c9983feae8c189c3ac50593315d0ba34a0a187a89d672e7959a",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "9dd1d27b6d4f9c9983feae8c189c3ac50593315d0ba34a0a187a89d672e7959a",
+      "distributionSha256": "4e42ed072cfb2726518160222bb19b0b4e3d89163c1631b827086b1933fb9e98"
     },
     {
       "id": "neoforge-1.21.8",
@@ -395,9 +429,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "b4dc2c9efb6fa8ffb21c177ef2df31c1bea80a0c2f79d2f0fddc29711c6db8a1",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "b4dc2c9efb6fa8ffb21c177ef2df31c1bea80a0c2f79d2f0fddc29711c6db8a1",
+      "distributionSha256": "7de74e38bf5a7f173b5b8e87f3a1b08f168a12a665dee965bd10a29e8d079991"
     },
     {
       "id": "fabric-1.21.9",
@@ -410,9 +446,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
+      "distributionSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3"
     },
     {
       "id": "forge-1.21.9",
@@ -425,9 +463,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "7989f5256b54469a0fddec1f273d261d9a3259e337508d1048fa0b620ed6f8d3",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "7989f5256b54469a0fddec1f273d261d9a3259e337508d1048fa0b620ed6f8d3",
+      "distributionSha256": "ed3eb50dd72beee51f2114fac05b94f55c254a84e9b7ea21970f54db353dad92"
     },
     {
       "id": "neoforge-1.21.9",
@@ -440,9 +480,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": true,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "7323c349f63f0877e568e69a0ca20bcadd391b3069d8101e4013ace894149177",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "7323c349f63f0877e568e69a0ca20bcadd391b3069d8101e4013ace894149177",
+      "distributionSha256": "5c7cd78c3008a6644911f2929d0513dae8054474fa120846bd845b844b6737ea"
     },
     {
       "id": "fabric-1.21.10",
@@ -455,9 +497,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
+      "distributionSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3"
     },
     {
       "id": "forge-1.21.10",
@@ -470,9 +514,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "9380185a127b194f21029dee15a0bb2360e4aef7354c3edfe11d3a0a3053d1cb",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "9380185a127b194f21029dee15a0bb2360e4aef7354c3edfe11d3a0a3053d1cb",
+      "distributionSha256": "9f770619c3be51f00ddc99e6612380d9118969eaee15a05d6c40b4c16577172b"
     },
     {
       "id": "neoforge-1.21.10",
@@ -485,9 +531,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "d2e75fd83dd56ef6b846ea4728d3a468ec6c938d408c35552a38684739f51acb",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "d2e75fd83dd56ef6b846ea4728d3a468ec6c938d408c35552a38684739f51acb",
+      "distributionSha256": "94a7af1b64ad003b379567dbe0eab71b347a720deb455b186113db44b1a8f5a5"
     },
     {
       "id": "fabric-1.21.11",
@@ -501,8 +549,10 @@
       "loaderPrerelease": false,
       "implementation": "implemented",
       "validated": true,
-      "validatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
-      "validationScope": "offline-loader-and-request-screen"
+      "validatedSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3",
+      "validationScope": "offline-reset-retry-regression",
+      "priorValidatedSha256": "5ea1573af4b6bc04946f20cf1e8a2aa1ab3933cdee718361e362a14663f54053",
+      "distributionSha256": "c64b5affd23b9b4dad365b2f1d7834ed36a6349a334e1289bd7282132dedf7f3"
     },
     {
       "id": "forge-1.21.11",
@@ -515,9 +565,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "0b87ef6b506d8dc11234546c1623dcda8b8c02fef92e31ffc415f65d053ab3fa",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "0b87ef6b506d8dc11234546c1623dcda8b8c02fef92e31ffc415f65d053ab3fa",
+      "distributionSha256": "bc7abe4c34af7d8e2e51d84b13852b15b000159b468c1d559fb79bd1b7f07282"
     },
     {
       "id": "neoforge-1.21.11",
@@ -530,9 +582,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "0157158688387e1e62912a22538195949164cbec76c1a18d8241d87a971c095e",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "0157158688387e1e62912a22538195949164cbec76c1a18d8241d87a971c095e",
+      "distributionSha256": "37a4bb55352241e5b15616ac0efd4fabccd0f39d814dde09c3acabefbc6614b7"
     },
     {
       "id": "fabric-26.1",
@@ -545,9 +599,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "d8ff9ed8aed7dc174bb2cf3e5f06772e7f7e6697b13ed77bf6ae0b44450d00d1",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "d8ff9ed8aed7dc174bb2cf3e5f06772e7f7e6697b13ed77bf6ae0b44450d00d1",
+      "distributionSha256": "5152400aa037025346c616de076e6a0fe9e728b54f91d0911ad47f87f38925c8"
     },
     {
       "id": "forge-26.1",
@@ -560,9 +616,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "f7536b10d1889eff94da44b671103c44cbe22957b9851cba047e78f4e0dad356",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "f7536b10d1889eff94da44b671103c44cbe22957b9851cba047e78f4e0dad356",
+      "distributionSha256": "7feef64e76f825e8f88de9cef054262e77fba8c528d667b9b5b3d28bbdddd77c"
     },
     {
       "id": "neoforge-26.1",
@@ -575,9 +633,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": true,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "2742035191291685a9b23d4ee0c656c29c255f22ab2df09417c8793f029d4ea6",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "2742035191291685a9b23d4ee0c656c29c255f22ab2df09417c8793f029d4ea6",
+      "distributionSha256": "86aeb55ce808ffff9297ec878f1bcd34e1f5fdb9a77c633b62e1deb6c7fc7cfa"
     },
     {
       "id": "fabric-26.1.1",
@@ -590,9 +650,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "d8ff9ed8aed7dc174bb2cf3e5f06772e7f7e6697b13ed77bf6ae0b44450d00d1",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "d8ff9ed8aed7dc174bb2cf3e5f06772e7f7e6697b13ed77bf6ae0b44450d00d1",
+      "distributionSha256": "5152400aa037025346c616de076e6a0fe9e728b54f91d0911ad47f87f38925c8"
     },
     {
       "id": "forge-26.1.1",
@@ -605,9 +667,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "e43a56428ef45785a4cb1148fb7904cadef52e6f4faf81691860c5ed3e42ce11",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "e43a56428ef45785a4cb1148fb7904cadef52e6f4faf81691860c5ed3e42ce11",
+      "distributionSha256": "b653486e94e01c94824c9e68e0a1f00ffe842970106a691924a05f7ec260cc6b"
     },
     {
       "id": "neoforge-26.1.1",
@@ -620,9 +684,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": true,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "427a265cea9710ca5a9155a03b9119b95bc70da123d24689eff22136e1cf9a56",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "427a265cea9710ca5a9155a03b9119b95bc70da123d24689eff22136e1cf9a56",
+      "distributionSha256": "eecf20e5fc1899141478df5c50d654de7c179eb09ba9b1f0b97c13a9e7ae7275"
     },
     {
       "id": "fabric-26.1.2",
@@ -635,9 +701,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "d8ff9ed8aed7dc174bb2cf3e5f06772e7f7e6697b13ed77bf6ae0b44450d00d1",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "d8ff9ed8aed7dc174bb2cf3e5f06772e7f7e6697b13ed77bf6ae0b44450d00d1",
+      "distributionSha256": "5152400aa037025346c616de076e6a0fe9e728b54f91d0911ad47f87f38925c8"
     },
     {
       "id": "forge-26.1.2",
@@ -650,9 +718,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "9b8e06575e1fcfe582540cbb19c62b73d45791aafb69087da0bba80f6d63b974",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "9b8e06575e1fcfe582540cbb19c62b73d45791aafb69087da0bba80f6d63b974",
+      "distributionSha256": "202de3d77788574b8c9fe117126ebaaf3ac49a7df3f9660fc8426cf7e8731200"
     },
     {
       "id": "neoforge-26.1.2",
@@ -665,9 +735,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "cadd8c20ca8e332ad212ff20089f1b53013bde2846baddfbfd762e631c106b5b",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "cadd8c20ca8e332ad212ff20089f1b53013bde2846baddfbfd762e631c106b5b",
+      "distributionSha256": "4a639f505e4c2fb5e27492ff48499fda2a32e8f49d06e7c4da27d4ba1f41ff73"
     },
     {
       "id": "fabric-26.2",
@@ -680,9 +752,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "d8ff9ed8aed7dc174bb2cf3e5f06772e7f7e6697b13ed77bf6ae0b44450d00d1",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "d8ff9ed8aed7dc174bb2cf3e5f06772e7f7e6697b13ed77bf6ae0b44450d00d1",
+      "distributionSha256": "5152400aa037025346c616de076e6a0fe9e728b54f91d0911ad47f87f38925c8"
     },
     {
       "id": "forge-26.2",
@@ -695,9 +769,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "2602fda84dc4494786b58e09143c5cea0af410a529d01da33f7f4c58b9e32ff1",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "2602fda84dc4494786b58e09143c5cea0af410a529d01da33f7f4c58b9e32ff1",
+      "distributionSha256": "d87e9394d69858484362f3ff0fadf6ed5d74d7f8a33e74af94360cd62a876fb0"
     },
     {
       "id": "neoforge-26.2",
@@ -710,9 +786,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "3d153ac1db2db7e1e54c324055bd02c90d4e051da8c32bd71e25fc73a1d0b39b",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "3d153ac1db2db7e1e54c324055bd02c90d4e051da8c32bd71e25fc73a1d0b39b",
+      "distributionSha256": "f4eb0278065fe42b81c974838109e38451a10a05de463351289d8cb6f311283d"
     },
     {
       "id": "fabric-26.3",
@@ -725,9 +803,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "d8ff9ed8aed7dc174bb2cf3e5f06772e7f7e6697b13ed77bf6ae0b44450d00d1",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "d8ff9ed8aed7dc174bb2cf3e5f06772e7f7e6697b13ed77bf6ae0b44450d00d1",
+      "distributionSha256": "5152400aa037025346c616de076e6a0fe9e728b54f91d0911ad47f87f38925c8"
     },
     {
       "id": "forge-26.3",
@@ -740,9 +820,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "0a809cf451a1bdbcdd497ee51071b4e41e826fca9765184f333bc1a92783ac5f",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "0a809cf451a1bdbcdd497ee51071b4e41e826fca9765184f333bc1a92783ac5f",
+      "distributionSha256": "e5f1278f1e83ef7133d96aa8c909d28f0b2900cae956966bb25e8a9777e1fdbd"
     },
     {
       "id": "neoforge-26.3",
@@ -755,9 +837,11 @@
       "loaderAvailable": true,
       "loaderPrerelease": false,
       "implementation": "implemented",
-      "validated": true,
+      "validated": false,
       "validatedSha256": "28259159b31cb3426e93c443cff0d4dd12d296084943ffe5ef8081d5be3ff754",
-      "validationScope": "offline-loader-and-request-screen"
+      "validationScope": "binary-callback-verification-with-prior-runtime-evidence",
+      "priorValidatedSha256": "28259159b31cb3426e93c443cff0d4dd12d296084943ffe5ef8081d5be3ff754",
+      "distributionSha256": "491713d31a33fd2cab1686e67306fad8680fb24a4716b9ca757d9e88754f6d6a"
     }
   ],
   "runtimeValidatedAt": "2026-10-15T22:51:22.498353+00:00"

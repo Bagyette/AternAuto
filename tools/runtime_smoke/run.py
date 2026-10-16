@@ -144,6 +144,8 @@ def run(version, mod_jar, directory_root=None):
             "--userType", "msa", "--width", "854", "--height", "480"]
     if version == "1.16.5":
         args[:0] = ["-Dsmoke.manualConnect=true", "-Dsmoke.setScreen=method_1507"]
+    if os.environ.get("ATERNAUTO_RETRY_SMOKE") == "1":
+        args[:0] = ["-Dsmoke.retry=true"]
     quick_play = modern or version.startswith("1.21.") or version == "1.20.1"
     args += ["--quickPlayMultiplayer", "smoke.aternos.me"] if quick_play else ["--server", "smoke.aternos.me", "--port", "25565"]
     args_file = directory / "java-args.txt"
@@ -175,4 +177,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     result = run(args.version, args.jar)
     print(json.dumps(result, indent=2))
-    raise SystemExit(0 if result["exit"] == 0 and result["result"] == "REQUEST_SCREEN_RENDERED" and result["marker"] else 1)
+    expected = "RESET_RETRY_PASSED" if os.environ.get("ATERNAUTO_RETRY_SMOKE") == "1" else "REQUEST_SCREEN_RENDERED"
+    raise SystemExit(0 if result["exit"] == 0 and result["result"] == expected and result["marker"] else 1)
