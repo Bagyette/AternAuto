@@ -1,5 +1,7 @@
 # AternAuto 2
 
+<img src="assets/aternauto-icon.png" width="80" height="80" alt="AternAuto logo">
+
 **AternAuto 2** requests Aternos server startup when you connect from Minecraft.
 Client mod for Fabric, Forge and NeoForge, with 24 interface languages. It also
 automatically retries one “Connection reset” error after a startup request.

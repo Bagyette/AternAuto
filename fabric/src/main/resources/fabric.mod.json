@@ -35,5 +35,6 @@
     "dawn": "*",
     "feather": "*",
     "auto_aternos_start": "*"
-  }
+  },
+  "icon": "assets/aternauto/icon.png"
 }

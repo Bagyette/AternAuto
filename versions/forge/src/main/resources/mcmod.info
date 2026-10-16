@@ -1,0 +1,13 @@
+[
+  {
+    "modid": "aternauto",
+    "name": "AternAuto",
+    "version": "2",
+    "description": "Start your Aternos server when connecting from Minecraft.",
+    "authorList": [
+      "Bagyette0"
+    ],
+    "logoFile": "assets/aternauto/icon.png",
+    "url": "https://aa.bagyette.fr"
+  }
+]
