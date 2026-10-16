@@ -49,8 +49,8 @@ def main():
             for name in names:
                 if name.startswith(("net/minecraft/", "fr/bagyette/aternauto/testing/")) or name.endswith((".env", ".token")):
                     raise ValueError("Unexpected distribution content: " + name)
-    for source in ["README.md", "RELEASE_NOTES_2.md", "COMPATIBILITY_V2.md"]:
-        shutil.copy2(ROOT / source, directory / source)
+    for source in ["README.md", "docs/RELEASE_NOTES_2.md", "docs/COMPATIBILITY_V2.md"]:
+        shutil.copy2(ROOT / source, directory / Path(source).name)
     unit_tests = 0
     for project in [ROOT / "common", ROOT / "fabric", *(ROOT / "versions").iterdir()]:
         for path in project.glob("build/test-results/test/TEST-*.xml"):

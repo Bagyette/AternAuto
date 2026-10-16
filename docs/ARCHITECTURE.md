@@ -39,7 +39,8 @@ its own copied root build. All Fabric, Forge and NeoForge adapters use it.
 
 ## Complete build
 
-The entry point is `gradlew.bat buildAll` (or `./gradlew buildAll`):
+The full build entry point is the memory-limited Python runner described in
+[BUILD.md](BUILD.md), using the `buildAll` task:
 
 1. Check the 49-target contract, required features and available launch drivers.
 2. Run common and loader-specific tests, and check Java formatting.
@@ -56,12 +57,10 @@ The entry point is `gradlew.bat buildAll` (or `./gradlew buildAll`):
 `assembleAll` performs packaging without running Minecraft. `checkBuildStructure`
 checks module boundaries and packaging behavior without compiling a mod.
 
-The Windows `build.ps1` wrapper supplies the selected JDK and a project-local
-socket directory for this machine's Java loopback issue, then invokes the same
-`buildAll` task. It restores its environment on exit. `-Tasks buildPreview` builds
-and packages the existing adapters in `releases/2-preview/` without claiming the
-complete matrix. Its manifest records missing ports and features; the full release
-preflight and launch verification remain strict.
+On Windows, `python -B tools/run_bounded_build.py --jdk <JDK25> --log
+.tools/build.log buildAll` supplies the selected JDK, a project-local socket
+and cache directory, and the aggregate process-tree memory ceiling. See
+[BUILD.md](BUILD.md) for compilation without game launches.
 
 `tools/run_bounded_build.py` starts the wrapper in a Windows Job Object before it
 can spawn children. Aggregate committed memory is capped at 5632 MiB, below 6 GB;

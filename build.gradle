@@ -103,13 +103,6 @@ tasks.register('finalizeRelease', Exec) {
     commandLine python, '-B', 'tools/finalize_release.py'
 }
 
-tasks.register('buildPreview', Exec) {
-    group = 'build'
-    description = 'Build existing adapters only and package an explicitly incomplete preview.'
-    dependsOn ':common:build', ':fabric:build', ':forge:launchwrapper:build'
-    dependsOn 'checkBuildStructure', 'checkJavaFormat'
-    commandLine python, '-B', 'tools/distributions_v2.py', 'package-preview'
-}
 tasks.named('build') { dependsOn 'buildAll' }
 tasks.register('assembleDistributions') { dependsOn 'assembleAll' }
 subprojects {
